@@ -1,0 +1,23 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fffdf7;
+    color: #333;
+  }
+  
+  .card-img-top {
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    mask-image: linear-gradient(black 80%, transparent); 
+    -webkit-mask-image: linear-gradient(black 80%, transparent);
+  }
+  
+  .btn-order {
+    background-color: #e1623a;
+    color: white;
+  }
+  
+  .btn-order:hover {
+    background-color: #e64a19;
+  }
+  
