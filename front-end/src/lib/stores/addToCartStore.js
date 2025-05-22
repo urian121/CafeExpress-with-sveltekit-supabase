@@ -35,5 +35,7 @@ export async function addToCart(product) {
  */
 export function showOffcanvas() {
   const offcanvasElement = document.getElementById("offcanvasRight");
-  offcanvasElement.classList.add("show");
+  if (offcanvasElement) {
+		offcanvasElement.classList.add('show');
+	}
 }

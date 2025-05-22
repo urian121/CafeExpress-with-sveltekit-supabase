@@ -4,6 +4,7 @@
   // Función para cerrar el offcanvas
   function closeOffcanvas() {
     const offcanvasElement = document.getElementById("offcanvasRight");
+    if(!offcanvasElement) return;
     offcanvasElement.classList.remove("show");
 
     // Mostrar el carrito si 'show' es true, ocultarlo si es false

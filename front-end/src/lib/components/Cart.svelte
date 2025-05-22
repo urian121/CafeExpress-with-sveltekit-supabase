@@ -7,18 +7,18 @@
     const btn_shopping = document.querySelector(".btn_shopping");
 
     // Toggle para mostrar/ocultar el offcanvas
-    let show = offcanvasElement.classList.toggle("show");
+    let show = offcanvasElement?.classList.toggle("show");
     if (!show) {
       // Ocultar el offcanvas
       toggleOffcanvas(false);
     }
 
     // Añadir la clase de animación al botón
-    btn_shopping.classList.add("balanceo");
+    btn_shopping?.classList.add("balanceo");
 
     // Eliminar el efecto de balanceo después de 500ms
     setTimeout(() => {
-      btn_shopping.classList.remove("balanceo");
+      btn_shopping?.classList.remove("balanceo");
     }, 500);
   }
 </script>
