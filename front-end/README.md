@@ -1,38 +1,66 @@
-# sv
-
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+npm install @supabase/supabase-js
 ```
+Clave BD: x1nXcoh2Oc7kcUII
 
-## Developing
+// https://supabase.com/dashboard/project/vorkqgwvnizclwjdpodu
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
 
-```bash
-npm run dev
+<script>
+  let nombre = '';
+  let precio = '';
+  let categoria = '';
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+  const guardarProducto = async () => {
+    const res = await fetch('/productos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nombre, precio, categoria })
+    });
 
-## Building
+    const data = await res.json();
+    if (data.success) {
+      alert('Producto guardado!');
+    } else {
+      alert('Error: ' + data.error);
+    }
+  };
+</script>
 
-To create a production version of your app:
+<form on:submit|preventDefault={guardarProducto}>
+  <input bind:value={nombre} placeholder="Nombre" />
+  <input bind:value={precio} placeholder="Precio" type="number" />
+  <input bind:value={categoria} placeholder="Categoría" />
+  <button type="submit">Guardar</button>
+</form>
 
-```bash
-npm run build
-```
 
-You can preview the production build with `npm run preview`.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+	async function agregarAlCarrito(product_id) {
+    const { error } = await supabase.from('tbl_cart_items').insert([{ product_id, amount: 1 }]);
+    if (error) {
+		console.log("Error al agregar al carrito:", error.message);
+    } else {
+		console.log("Producto agregado al carrito!");
+    }
+  }
+
+
+
+
+  async function eliminarDelCarrito(product_id) {
+  try {
+    const { error } = await supabase
+      .from('tbl_cart_items')
+      .delete()
+      .eq('product_id', product_id);
+    if (error) throw error;
+    console.log("Producto eliminado del carrito!");
+  } catch (err) {
+    console.log("Error al eliminar del carrito:", err.message);
+  }
+}
+
+<button on:click={() => eliminarDelCarrito(producto.id)}>
+  Eliminar del carrito
+</button>
