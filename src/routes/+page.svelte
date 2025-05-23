@@ -27,7 +27,7 @@
   
   {#if loading}
 	<div class="loader-container">
-	  <div class="loader">Cargando...</div>
+	  <div class="loader">Cargando productos...</div>
 	</div>
   {:else if error}
 	<div class="alert alert-danger">Error de conexión: {error}</div>
