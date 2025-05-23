@@ -9,6 +9,7 @@
 
 	import Header from './Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import ApiWhatApp from '$lib/components/ApiWhatApp.svelte';
 
 	import BtnCart from '$lib/components/BtnCart.svelte';
 	import { cerrarOffcanvas } from '$lib/stores/toggleOffcanvas';
@@ -112,7 +113,7 @@
 			<span class="fw-bold float-end px-2 fs-2"> ${subtotal.toFixed(2)} </span>
 		</h5>
 		<div class="text-center mb-5 px-3">
-			<button class="btn btn-order mt-auto w-100">Procesar compra</button>
+			<ApiWhatApp productos={productosCarrito} subtotalCarrito={subtotal} />
 		</div>
 	</div>
 </div>

@@ -45,7 +45,7 @@
 			<h6 class="card-title">{producto.name}</h6>
 			<p class="card-text">Categoría: <strong>{producto.category}</strong></p>
 			<p class="card-text">Precio: <strong class="text-success">{producto.price}</strong></p>
-			<button class="btn btn-order mt-auto w-100" on:click={() => agregarAlCarrito(producto.id)}>
+			<button class="btn btn-order mt-auto w-100" onclick={() => agregarAlCarrito(producto.id)}>
 				Ordenar ahora <i class="bi bi-bag-plus"></i>
 			</button>
 		  </div>

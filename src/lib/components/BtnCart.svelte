@@ -2,26 +2,19 @@
 	import { mostrarOcultarOffcanvas } from '$lib/stores/toggleOffcanvas';
 	import { onMount } from 'svelte';
 	import { obtenerTotalProductos } from '$lib/cartService';
-
-	// Variable para el contador
-	let contadorProductos = $state(0);
-
-	// Actualizar contador al cargar el componente
-	onMount(async () => {
-		await actualizarContador();
-	});
-
-	// Función para actualizar el contador
-	async function actualizarContador() {
-		contadorProductos = await obtenerTotalProductos();
-	}
+	import { cartCount } from '$lib/stores/cartCountStore';
 
 	// Función para mostrar/ocultar offcanvas y actualizar contador
 	async function abrirCarrito() {
 		// Actualizar contador antes de mostrar
-		await actualizarContador();
+		await obtenerTotalProductos();
 		mostrarOcultarOffcanvas();
 	}
+
+	// Cargar contador inicial
+	onMount(async () => {
+		await obtenerTotalProductos();
+	});
 </script>
 
 <!-- Botón del carrito -->
@@ -37,7 +30,7 @@
 			id="contador-carrito"
 			class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger"
 		>
-			{contadorProductos || 0}
+			{$cartCount || 0}
 		</span>
 	</button>
 </div>

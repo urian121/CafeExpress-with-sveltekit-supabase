@@ -1,38 +1,33 @@
 <script>
-  /*
-   * IMPORTANTE: En este componente, necesitamos importar el carrito y el subtotal del store cartStore.
-   * subtotal es un store derivado que calcula el total de la compra.
-   * En Svelte, cuando importas un writable o derived, necesitas usar el signo $ delante del nombre para extraer su valor.
-   * Con $subtotal, Svelte automáticamente se suscribirá al store y actualizará el valor cuando cambie el carrito.
-   */
+	export let productos = [];
+	export let subtotalCarrito = 0;
 
-  import { cart } from "../stores/cartStore";
-  import { subtotal } from "../stores/subtotalStore";
+	function generateWhatsAppMessage() {
+		// Construir el mensaje con los productos del carrito
+		const cartItems = productos
+			.map((item) => {
+				return `${item.products?.name || 'Producto'} - ${item.amount}x $${item.products?.price || 0}`;
+			})
+			.join('\n'); // Une todos los productos con salto de línea
 
-  function generateWhatsAppMessage() {
-    // Construir el mensaje con los productos del carrito
-    const cartItems = $cart
-      .map((item) => {
-        return `${item.name} - ${item.cantidad} x $${item.price}`;
-      })
-      .join("\n"); // Une todos los productos con salto de línea
+		const message = `¡Hola! Quiero hacer el siguiente pedido:\n\n${cartItems}\n\nSubtotal: $${subtotalCarrito.toFixed(2)}\n\n¡Gracias!`;
 
-    const subtotalCart = $subtotal;
-    const message = `¡Hola! Quiero hacer el siguiente pedido:\n\n${cartItems}\n\nSubtotal: $${subtotalCart}\n\n¡Gracias!`;
+		// Codificar el mensaje para usarlo en una URL
+		return encodeURIComponent(message);
+	}
 
-    // Codificar el mensaje para usarlo en una URL
-    return encodeURIComponent(message);
-  }
+	function enviarPedido() {
+		const message = generateWhatsAppMessage();
+		const phoneNumber = '+573213872648';
+		const url = `https://wa.me/${phoneNumber}?text=${message}`;
+		window.open(url, '_blank');
+	}
 </script>
 
-<button disabled={$cart.length === 0}
-  class="btn btn-primary mt-5 w-100"
-  on:click={() => {
-    const message = generateWhatsAppMessage();
-    const phoneNumber = "+573213872648";
-    const url = `https://wa.me/${phoneNumber}?text=${message}`;
-    window.open(url, "_blank");
-  }}
+<button
+	disabled={productos.length === 0}
+	class="btn btn-order mt-auto w-100"
+	onclick={enviarPedido}
 >
-  Enviar pedido por WhatsApp
+	Procesar compra <i class="bi bi-whatsapp ms-2"></i>
 </button>

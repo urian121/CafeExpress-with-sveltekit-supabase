@@ -1,4 +1,5 @@
 import { supabase } from '$lib/supabaseClient';
+import { actualizarContador } from './stores/cartCountStore';
 
 /**
  * Obtiene los productos de la base de datos
@@ -33,8 +34,15 @@ export async function agregarAlCarrito(product_id) {
 			if (error) throw error;
 			console.log('Producto agregado al carrito!');
 		}
+
+		// Actualizar el contador global
+		const total = await obtenerTotalProductos();
+		actualizarContador(total);
+
+		return { success: true, message: 'Producto agregado al carrito correctamente' };
 	} catch (err) {
 		console.log('Error al agregar/actualizar en el carrito:', err.message);
+		return { success: false, message: 'Error al agregar el producto al carrito' };
 	}
 }
 
@@ -122,9 +130,12 @@ export async function obtenerTotalProductos() {
 
 		// Sumar todas las cantidades
 		const total = data.reduce((sum, item) => sum + item.amount, 0);
+		// Actualizar el contador global
+		actualizarContador(total);
 		return total;
 	} catch (err) {
 		console.error('Error en obtenerTotalProductos:', err);
+		actualizarContador(0);
 		return 0;
 	}
 }
