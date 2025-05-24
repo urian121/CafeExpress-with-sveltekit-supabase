@@ -5,55 +5,25 @@
 
 	import { onMount } from 'svelte';
 	import { useScrollToTop } from '$lib/hooks/useScrollToTop';
-	import { obtenerCarrito, eliminarDelCarrito } from '$lib/cartService.js';
+	import { cartStore, cartSubtotal, eliminarProductoDelCarrito, cargarCarrito } from '$lib/stores/cartStore';
 
 	import Header from './Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import ApiWhatApp from '$lib/components/ApiWhatApp.svelte';
-
 	import BtnCart from '$lib/components/BtnCart.svelte';
 	import { cerrarOffcanvas } from '$lib/stores/toggleOffcanvas';
 
 	let { children } = $props();
 
-	// Variables para el carrito
-	let productosCarrito = $state([]);
-	let subtotal = $state(0);
-
-	//  Inicializar el botón de volver arriba
 	const { showButton, scrollToTop, init } = useScrollToTop();
 
-	// Cargar productos del carrito al iniciar
-	onMount(async () => {
-		await cargarProductosCarrito();
-
+	onMount(() => {
+		cargarCarrito();
 		const cleanup = init();
 		return cleanup;
 	});
-
-	// Función para cargar los productos del carrito
-	async function cargarProductosCarrito() {
-		productosCarrito = await obtenerCarrito();
-		console.log(productosCarrito);
-		calcularSubtotal();
-	}
-
-	// Función para calcular el subtotal
-	function calcularSubtotal() {
-		subtotal = productosCarrito.reduce((total, item) => {
-			return total + (item.products?.price || 0) * item.amount;
-		}, 0);
-	}
-
-	// Función para eliminar un producto del carrito
-	async function eliminarProducto(product_id) {
-		const resultado = await eliminarDelCarrito(product_id);
-		if (resultado.success) {
-			// Actualizar la lista de productos
-			await cargarProductosCarrito();
-		}
-	}
 </script>
+
 
 <BtnCart />
 
@@ -77,13 +47,13 @@
 	</div>
 
 	<div class="offcanvas-body border-bottom">
-		{#if productosCarrito.length === 0}
+		{#if $cartStore.length === 0}
 			<div class="text-center py-5">
 				<i class="bi bi-cart-x fs-1 text-muted"></i>
 				<p class="mt-3">El carrito está vacío</p>
 			</div>
 		{:else}
-			{#each productosCarrito as item}
+			{#each $cartStore as item}
 				<div class="container mb-3" id="item-cart" key={item.id}>
 					<div class="row align-items-center border-bottom py-2">
 						<div class="col-3">
@@ -102,7 +72,7 @@
 							<button
 								aria-label="Borrar"
 								class="btn btn-danger-cart mt-2"
-								onclick={() => eliminarProducto(item.product_id)}
+								onclick={() => eliminarProductoDelCarrito(item.product_id)}
 							>
 								<i class="bi bi-trash3"></i>
 							</button>
@@ -116,10 +86,10 @@
 	<div class="offcanvas-footer mt-4">
 		<h5 class="justify-content-between mb-4">
 			<span class="fw-bold px-3">SUBTOTAL:</span>
-			<span class="fw-bold float-end px-2 fs-2"> ${subtotal.toFixed(2)} </span>
+			<span class="fw-bold float-end px-2 fs-2"> ${$cartSubtotal.toFixed(2)} </span>
 		</h5>
 		<div class="text-center mb-5 px-3">
-			<ApiWhatApp productos={productosCarrito} subtotalCarrito={subtotal} />
+			<ApiWhatApp productos={$cartStore} subtotalCarrito={$cartSubtotal} />
 		</div>
 	</div>
 </div>

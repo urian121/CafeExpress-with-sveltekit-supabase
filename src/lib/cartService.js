@@ -56,6 +56,7 @@ export async function agregarAlCarrito(product_id) {
 
 		// Actualizar el contador global
 		const total = await obtenerTotalProductos();
+		console.log('Total de productos en el carrito:', total)
 		actualizarContador(total);
 
 		return { success: true };
@@ -70,19 +71,16 @@ export async function agregarAlCarrito(product_id) {
  */
 export async function eliminarDelCarrito(product_id) {
 	try {
-		// Primero obtenemos el ítem actual para ver su cantidad
 		const { data: itemActual } = await supabase
 			.from('tbl_cart_items')
 			.select('id, amount')
 			.eq('product_id', product_id)
 			.single();
 
-		// Si no existe el ítem, retornamos error
 		if (!itemActual) {
 			return { success: false, message: 'Producto no encontrado en el carrito' };
 		}
 
-		// Si la cantidad es mayor a 1, disminuimos en 1
 		if (itemActual.amount > 1) {
 			const { error } = await supabase
 				.from('tbl_cart_items')
@@ -90,18 +88,22 @@ export async function eliminarDelCarrito(product_id) {
 				.eq('id', itemActual.id);
 
 			if (error) throw error;
-			return { success: true, message: 'Cantidad reducida en el carrito' };
 		} else {
-			// Si la cantidad es 1, eliminamos el ítem completamente
 			const { error } = await supabase.from('tbl_cart_items').delete().eq('id', itemActual.id);
 			if (error) throw error;
-			return { success: true, message: 'Producto eliminado del carrito' };
 		}
+
+		// Actualiza el contador global después de modificar el carrito
+		const total = await obtenerTotalProductos();
+		actualizarContador(total);
+
+		return { success: true, message: 'Carrito actualizado correctamente' };
 	} catch (err) {
 		console.error('Error al eliminar del carrito:', err);
 		return { success: false, message: err.message };
 	}
 }
+
 
 /**
  * Obtiene el carrito de la base de datos con información completa de los productos
@@ -133,20 +135,18 @@ export async function obtenerCarrito() {
  */
 export async function obtenerTotalProductos() {
 	try {
-		const { data, error } = await supabase
+		const { error, count } = await supabase
 			.from('tbl_cart_items')
-			.select('amount');
+			.select('id', { count: 'exact', head: true });
 
 		if (error) {
 			console.error('Error al obtener total de productos:', error);
 			return 0;
 		}
 
-		// Sumar todas las cantidades
-		const total = data.reduce((sum, item) => sum + item.amount, 0);
-		// Actualizar el contador global
-		actualizarContador(total);
-		return total;
+		console.log('Total de productos distintos en el carrito:', count);
+		actualizarContador(count || 0);
+		return count || 0;
 	} catch (err) {
 		console.error('Error en obtenerTotalProductos:', err);
 		actualizarContador(0);
