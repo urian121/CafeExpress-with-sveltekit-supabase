@@ -39,10 +39,10 @@ export async function agregarAlCarrito(product_id) {
 		const total = await obtenerTotalProductos();
 		actualizarContador(total);
 
-		return { success: true, message: 'Producto agregado al carrito correctamente' };
+		return { success: true };
 	} catch (err) {
 		console.log('Error al agregar/actualizar en el carrito:', err.message);
-		return { success: false, message: 'Error al agregar el producto al carrito' };
+		return { success: false };
 	}
 }
 

@@ -59,14 +59,12 @@
     }
   }
 
-  /* Responsive - ajusta altura de imagen en móviles */
   @media (max-width: 576px) {
     .skeleton-img {
       height: 180px;
     }
   }
 
-  /* Opcional: Pulse animation alternativa */
   .skeleton-pulse {
     animation: skeleton-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }

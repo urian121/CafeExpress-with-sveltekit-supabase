@@ -1,6 +1,7 @@
 <script>
 import { onMount } from 'svelte';
-import { obtenerProductos, agregarAlCarrito } from '$lib/cartService.js';
+import { obtenerProductos } from '$lib/cartService.js';
+import { crearManejadorCarrito } from '$lib/cartHandlers.js';
 import SkeletonCards from '$lib/components/SkeletonCards.svelte';
 
 import "../css/skeleton.css";
@@ -9,6 +10,15 @@ let productos = [];
 let error = null;
 let loading = true;
 let loadedImages = new Set(); // Para trackear imágenes cargadas
+let loadingButtons = new Set(); // Estado para controlar qué botón está cargando
+
+// Función para disparar reactividad del Set
+const triggerLoadingUpdate = () => {
+  loadingButtons = loadingButtons;
+};
+
+// Crear el manejador del carrito con el estado de carga
+const manejarAgregarAlCarrito = crearManejadorCarrito(loadingButtons, triggerLoadingUpdate);
 
 onMount(async () => {
   const { data, error: err } = await obtenerProductos();
@@ -25,6 +35,28 @@ function handleImageLoad(productoId) {
   loadedImages.add(productoId);
   loadedImages = loadedImages; // Trigger reactivity en Svelte 5
 }
+
+// Función mejorada para agregar al carrito
+/*async function manejarAgregarAlCarrito(productoId) {
+  // Agregar el ID del producto al set de botones cargando
+  loadingButtons.add(productoId);
+  loadingButtons = loadingButtons; // Trigger reactivity
+  
+  try {
+    const resultado = await agregarAlCarrito(productoId);
+    
+    if (resultado.success) {
+      console.log('Producto agregado exitosamente');
+    } else {
+      console.error('Error:', resultado.message);
+    }
+  } catch (err) {
+    console.error('Error al agregar al carrito:', err);
+  } finally {
+    loadingButtons.delete(productoId);
+    loadingButtons = loadingButtons; // Trigger reactivity
+  }
+}*/
 </script>
 
 <svelte:head>
@@ -33,14 +65,8 @@ function handleImageLoad(productoId) {
 </svelte:head>
 
 {#if loading}
-  <!-- Skeleton Cards -->
   <SkeletonCards />
-
-{:else if error}
-  <div class="alert alert-danger">Error de conexión: {error}</div>
-
 {:else}
-  <!-- Cards reales -->
   <div class="row g-4">
     {#each productos as producto (producto.id)}
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -56,8 +82,18 @@ function handleImageLoad(productoId) {
             <h6 class="card-title">{producto.name}</h6>
             <p class="card-text">Categoría: <strong>{producto.category}</strong></p>
             <p class="card-text">Precio: <strong class="text-success fs-5">${producto.price}</strong></p>
-            <button class="btn btn-order mt-auto w-100" onclick={() => agregarAlCarrito(producto.id)}>
-              Ordenar ahora <i class="bi bi-bag-plus"></i>
+            <button 
+                class="btn btn-order mt-auto w-100" 
+                class:loading={loadingButtons.has(producto.id)}
+                disabled={loadingButtons.has(producto.id)}
+                onclick={() => manejarAgregarAlCarrito(producto.id)}
+              >
+              {#if loadingButtons.has(producto.id)}
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Agregando...
+              {:else}
+                Ordenar ahora <i class="bi bi-bag-plus"></i>
+              {/if}
             </button>
           </div>
         </div>
@@ -66,7 +102,7 @@ function handleImageLoad(productoId) {
   </div>
 {/if}
 <style>
-  /* Fade-in animation para imágenes */
+/* Fade-in animation para imágenes */
 .fade-in {
 	opacity: 0;
 	transition: opacity 0.5s ease-in;
