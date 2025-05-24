@@ -10,6 +10,25 @@ export async function obtenerProductos() {
 }
 
 /**
+ * Retorna una función manejadora para agregar productos al carrito con estado de carga
+ */
+export const crearManejadorCarrito = (loadingButtons, triggerUpdate) => 
+  async (productoId) => {
+    loadingButtons.add(productoId);
+    triggerUpdate(); // Actualiza el estado del carrito
+
+    try {
+      const res = await agregarAlCarrito(productoId);
+      if (!res?.success) console.error('Error:', res?.message);
+    } catch (err) {
+      console.error('Error al agregar al carrito:', err);
+    } finally {
+      loadingButtons.delete(productoId);
+      triggerUpdate();
+    }
+};
+
+/**
  * Agrega un producto al carrito
  */
 export async function agregarAlCarrito(product_id) {
@@ -18,7 +37,7 @@ export async function agregarAlCarrito(product_id) {
 			.from('tbl_cart_items')
 			.select('id, amount')
 			.eq('product_id', product_id)
-			.single();
+			.maybeSingle();
 
 		if (data) {
 			// Actualiza la cantidad si ya existe
@@ -88,27 +107,25 @@ export async function eliminarDelCarrito(product_id) {
  * Obtiene el carrito de la base de datos con información completa de los productos
  */
 export async function obtenerCarrito() {
-	const { data, error } = await supabase
-		.from('tbl_cart_items')
-		.select(`
-      id,
-      amount,
-      product_id,
-      created_at,
-      products:tbl_products(id, name, price, image, category)
-    `);
+  try {
+    const { data, error } = await supabase
+      .from('tbl_cart_items')
+      .select(`
+        id,
+        amount,
+        product_id,
+        created_at,
+        products:tbl_products(id, name, price, image, category)
+      `)
+      .order('created_at', { ascending: false });
 
-	if (error) {
-		console.error('Error al obtener el carrito:', error);
-		return [];
-	}
+    if (error) throw error;
 
-	// Verificar que los datos existan
-	if (!data || data.length === 0) {
-		return [];
-	}
-
-	return data;
+    return data || [];
+  } catch (err) {
+    console.error('Error al obtener el carrito:', err);
+    return [];
+  }
 }
 
 /**

@@ -61,6 +61,36 @@ body {
 .custom-item-card img {
 	transition: transform 0.3s ease-in-out !important;
 }
+/** Botón de volver arriba */
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 45px;
+  height: 45px;
+  background-color: #188c58;
+  border-radius: 50%;
+  z-index: 1050;
+  color: white;
+  font-size: 1.7rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-to-top:hover {
+  background-color: #12cf7a;
+  transform: translateY(0) scale(1.1);
+}
+/** Fin Botón de volver arriba */
+
 footer bi {
 	color: #333 !important;
 }

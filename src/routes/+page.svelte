@@ -1,7 +1,6 @@
 <script>
 import { onMount } from 'svelte';
-import { obtenerProductos } from '$lib/cartService.js';
-import { crearManejadorCarrito } from '$lib/cartHandlers.js';
+import { obtenerProductos, crearManejadorCarrito } from '$lib/cartService.js';
 import SkeletonCards from '$lib/components/SkeletonCards.svelte';
 
 import "../css/skeleton.css";
@@ -9,8 +8,10 @@ import "../css/skeleton.css";
 let productos = [];
 let error = null;
 let loading = true;
+let showSkeleton = true; // Nuevo estado para controlar el esqueleto
 let loadedImages = new Set(); // Para trackear imágenes cargadas
 let loadingButtons = new Set(); // Estado para controlar qué botón está cargando
+
 
 // Función para disparar reactividad del Set
 const triggerLoadingUpdate = () => {
@@ -21,6 +22,11 @@ const triggerLoadingUpdate = () => {
 const manejarAgregarAlCarrito = crearManejadorCarrito(loadingButtons, triggerLoadingUpdate);
 
 onMount(async () => {
+  // Mostramos el esqueleto durante 3 segundos
+  setTimeout(() => {
+    showSkeleton = false;
+  }, 500);
+
   const { data, error: err } = await obtenerProductos();
   if (err) {
     error = err.message;
@@ -42,7 +48,7 @@ function handleImageLoad(productoId) {
   <meta name="description" content="Kiosco CafeExpress en SvelteKit y Supabase" />
 </svelte:head>
 
-{#if loading}
+{#if showSkeleton || loading}
   <SkeletonCards />
 {:else}
   <div class="row g-4">

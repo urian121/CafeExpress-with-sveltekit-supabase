@@ -4,6 +4,7 @@
 	import '../css/home.css';
 
 	import { onMount } from 'svelte';
+	import { useScrollToTop } from '$lib/hooks/useScrollToTop';
 	import { obtenerCarrito, eliminarDelCarrito } from '$lib/cartService.js';
 
 	import Header from './Header.svelte';
@@ -19,9 +20,15 @@
 	let productosCarrito = $state([]);
 	let subtotal = $state(0);
 
+	//  Inicializar el botón de volver arriba
+	const { showButton, scrollToTop, init } = useScrollToTop();
+
 	// Cargar productos del carrito al iniciar
 	onMount(async () => {
 		await cargarProductosCarrito();
+
+		const cleanup = init();
+		return cleanup;
 	});
 
 	// Función para cargar los productos del carrito
@@ -77,7 +84,7 @@
 			</div>
 		{:else}
 			{#each productosCarrito as item}
-				<div class="container mb-3" id="item-cart">
+				<div class="container mb-3" id="item-cart" key={item.id}>
 					<div class="row align-items-center border-bottom py-2">
 						<div class="col-3">
 							<img
@@ -122,5 +129,16 @@
 
 	{@render children()}
 </div>
+
+{#if $showButton}
+<button
+  aria-label="Volver arriba"
+  class="scroll-to-top d-flex align-items-center justify-content-center border-0 {showButton ? 'visible' : ''}"
+  title="Volver arriba"
+  onclick={scrollToTop}
+>
+  <i class="bi bi-arrow-up-short"></i>
+</button>
+{/if}
 
 <Footer />
