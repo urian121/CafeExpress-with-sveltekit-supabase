@@ -6,7 +6,7 @@ import { agregarAlCarrito } from './cartService.js';
 export const crearManejadorCarrito = (loadingButtons, triggerUpdate) => 
   async (productoId) => {
     loadingButtons.add(productoId);
-    triggerUpdate();
+    triggerUpdate(); // Actualiza el estado del carrito
 
     try {
       const res = await agregarAlCarrito(productoId);

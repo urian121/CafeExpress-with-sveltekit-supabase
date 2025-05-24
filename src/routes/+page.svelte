@@ -35,28 +35,6 @@ function handleImageLoad(productoId) {
   loadedImages.add(productoId);
   loadedImages = loadedImages; // Trigger reactivity en Svelte 5
 }
-
-// Función mejorada para agregar al carrito
-/*async function manejarAgregarAlCarrito(productoId) {
-  // Agregar el ID del producto al set de botones cargando
-  loadingButtons.add(productoId);
-  loadingButtons = loadingButtons; // Trigger reactivity
-  
-  try {
-    const resultado = await agregarAlCarrito(productoId);
-    
-    if (resultado.success) {
-      console.log('Producto agregado exitosamente');
-    } else {
-      console.error('Error:', resultado.message);
-    }
-  } catch (err) {
-    console.error('Error al agregar al carrito:', err);
-  } finally {
-    loadingButtons.delete(productoId);
-    loadingButtons = loadingButtons; // Trigger reactivity
-  }
-}*/
 </script>
 
 <svelte:head>

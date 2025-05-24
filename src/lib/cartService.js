@@ -48,8 +48,6 @@ export async function agregarAlCarrito(product_id) {
 
 /**
  * Reduce la cantidad de un producto en el carrito
- * Si la cantidad llega a cero, elimina el producto
- * @param {string} product_id - ID del producto a eliminar
  */
 export async function eliminarDelCarrito(product_id) {
 	try {
@@ -115,7 +113,6 @@ export async function obtenerCarrito() {
 
 /**
  * Obtiene el total de productos en el carrito
- * @returns {Promise<number>} Total de productos
  */
 export async function obtenerTotalProductos() {
 	try {

@@ -81,8 +81,8 @@
 					<div class="row align-items-center border-bottom py-2">
 						<div class="col-3">
 							<img
-								src={item.products?.image || 'assets/imgs/product.png'}
-								alt={item.products?.name || 'Producto'}
+								src={item.products.image}
+								alt={item.products.name}
 								class="img-fluid rounded"
 							/>
 						</div>
