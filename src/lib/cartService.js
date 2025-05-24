@@ -1,5 +1,7 @@
 import { supabase } from '$lib/supabaseClient';
 import { actualizarContador } from './stores/cartCountStore';
+import { cargarCarrito } from '$lib/stores/cartStore';
+
 
 /**
  * Obtiene los productos de la base de datos
@@ -19,7 +21,9 @@ export const crearManejadorCarrito = (loadingButtons, triggerUpdate) =>
 
     try {
       const res = await agregarAlCarrito(productoId);
-      if (!res?.success) console.error('Error:', res?.message);
+		if (!res?.success) console.error('Error:', res?.message);
+		
+		await cargarCarrito(); // Actualiza el carrito para reflejar los cambios en el offcanvas
     } catch (err) {
       console.error('Error al agregar al carrito:', err);
     } finally {
