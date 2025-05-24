@@ -1,5 +1,5 @@
 {
-	"name": "cafe-express-with-sveltekit-php-mysql-supabase",
+	"name": "cafe-express-with-sveltekit-supabase",
 	"private": true,
 	"version": "0.0.1",
 	"type": "module",
