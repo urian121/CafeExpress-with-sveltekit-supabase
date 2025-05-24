@@ -1,7 +1,6 @@
 <script>
 	import 'bootstrap/dist/css/bootstrap.min.css';
 	import 'bootstrap-icons/font/bootstrap-icons.css';
-	import '../css/global.css';
 	import '../css/home.css';
 
 	import { onMount } from 'svelte';

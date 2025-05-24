@@ -27,11 +27,10 @@
         </div>
 
         <div class="col-3 text-end">
-          <span class="fw-bold"
-            ><span class="fs-6 color-gris">{item.cantidad}x</span><span
-              class="fs-5 precio">${item.price}</span
-            ></span
-          >
+          <span class="fw-bold">
+            <span class="fs-6 opacity-75">{item.cantidad}x</span>
+            <span class="fs-5 precio">${item.price}</span>
+          </span>
           <button
             class="btn btn-danger mt-2 btn-borrar"
             aria-label="Borrar"

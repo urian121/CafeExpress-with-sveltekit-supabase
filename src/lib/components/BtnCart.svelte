@@ -28,7 +28,7 @@
 		<i class="bi bi-bag-heart"></i>
 		<span
 			id="contador-carrito"
-			class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-danger"
+			class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-cart"
 		>
 			{$cartCount || 0}
 		</span>
