@@ -1,6 +1,10 @@
 # CaféExpress
 
-![CaféExpress Logo](https://raw.githubusercontent.com/urian121/CafeExpress-with-sveltekit-php-mysql-supabase/main/static/logo.png)
+![CaféExpress](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/refs/heads/master/CafeExpress-with-sveltekit-supabase-list-products.png)
+
+![CaféExpress](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/refs/heads/master/CafeExpress-with-sveltekit-supabase-cart-shopping.png)
+
+![Demo CaféExpress](https://raw.githubusercontent.com/urian121/imagenes-proyectos-github/refs/heads/master/cafeExpress-with-sveltekit-supabase.gif)
 
 **CaféExpress** es una tienda en línea moderna y eficiente para la venta de café y productos relacionados, desarrollada con las tecnologías más avanzadas del mercado.
 
