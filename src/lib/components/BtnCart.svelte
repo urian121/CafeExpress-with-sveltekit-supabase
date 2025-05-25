@@ -1,7 +1,7 @@
 <script>
 	import { mostrarOcultarOffcanvas } from '$lib/stores/toggleOffcanvas';
 	import { onMount } from 'svelte';
-	import { obtenerTotalProductos } from '$lib/cartService';
+	import { obtenerTotalProductos } from '$lib/services/cartService';
 	import { cartCount } from '$lib/stores/cartCountStore';
 
 	// Función para mostrar/ocultar offcanvas y actualizar contador
@@ -18,7 +18,7 @@
 </script>
 
 <!-- Botón del carrito -->
-<div class="position-relative">
+<div class="position-relative" id="cart-button">
 	<button
 		type="button"
 		class="btn btn_shopping cart-badge position-fixed top-0 end-0 me-4 mt-3 swing-on-hover border bg-white"

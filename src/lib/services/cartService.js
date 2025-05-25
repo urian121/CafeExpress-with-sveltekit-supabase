@@ -1,5 +1,5 @@
-import { supabase } from '$lib/supabaseClient';
-import { actualizarContador } from './stores/cartCountStore';
+import { supabase } from '$lib/services/supabaseClient';
+import { actualizarContador } from '../stores/cartCountStore';
 import { cargarCarrito } from '$lib/stores/cartStore';
 
 

@@ -1,12 +1,11 @@
 <script>
 import { onMount } from 'svelte';
-import { obtenerProductos, crearManejadorCarrito } from '$lib/cartService.js';
+import { obtenerProductos, crearManejadorCarrito } from '$lib/services/cartService.js';
 import SkeletonCards from '$lib/components/SkeletonCards.svelte';
 
 import "../css/skeleton.css";
 
 let productos = [];
-let error = null;
 let loading = true;
 let showSkeleton = true; // Nuevo estado para controlar el esqueleto
 let loadedImages = new Set(); // Para trackear imágenes cargadas

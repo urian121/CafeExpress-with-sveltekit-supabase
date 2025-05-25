@@ -1,5 +1,5 @@
 import { writable, derived } from 'svelte/store';
-import { obtenerCarrito, eliminarDelCarrito } from '$lib/cartService';
+import { obtenerCarrito, eliminarDelCarrito } from '$lib/services/cartService';
 
 export const cartStore = writable([]);
 
