@@ -97,3 +97,18 @@ body {
 footer bi {
 	color: #333 !important;
 }
+
+/** Media queries */
+@media screen and (max-width: 575px) {
+	.scroll-to-top {
+		bottom: 10px;
+		width: 35px;
+		height: 35px;
+	}
+	.custom-item-card:hover img {
+		transform: scale(0.95); /* achica la imagen al 95% */
+	  }
+	  .custom-item-card img {
+		transition: transform 0.3s ease-in-out, filter 0.3s ease-in-out !important;
+	  }	
+}
