@@ -2,6 +2,7 @@
 import { onMount } from 'svelte';
 import { obtenerProductos, crearManejadorCarrito } from '$lib/services/cartService.js';
 import SkeletonCards from '$lib/components/SkeletonCards.svelte';
+import { searchTerm } from '$lib/stores/searchStore'; // Import the store
 
 import "../css/skeleton.css";
 
@@ -10,7 +11,7 @@ let loading = true;
 let showSkeleton = true; // Nuevo estado para controlar el esqueleto
 let loadedImages = new Set(); // Para trackear imágenes cargadas
 let loadingButtons = new Set(); // Estado para controlar qué botón está cargando
-
+let error = null; // State to hold error messages
 
 // Función para disparar reactividad del Set
 const triggerLoadingUpdate = () => {
@@ -21,7 +22,7 @@ const triggerLoadingUpdate = () => {
 const manejarAgregarAlCarrito = crearManejadorCarrito(loadingButtons, triggerLoadingUpdate);
 
 onMount(async () => {
-  // Mostramos el esqueleto durante 3 segundos
+  // Mostramos el esqueleto durante 0.5 seconds
   setTimeout(() => {
     showSkeleton = false;
   }, 500);
@@ -29,17 +30,32 @@ onMount(async () => {
   const { data, error: err } = await obtenerProductos();
   if (err) {
     error = err.message;
+    loading = false; // Set loading to false even if there's an error
   } else {
     productos = data;
+    loading = false;
   }
-  loading = false;
 });
 
-// Función para manejar cuando una imagen se carga
+// Function to handle image loading
 function handleImageLoad(productoId) {
   loadedImages.add(productoId);
-  loadedImages = loadedImages; // Trigger reactivity en Svelte 5
+  loadedImages = loadedImages; // Trigger reactivity in Svelte 5
 }
+
+// Function to normalize strings (remove accents and convert to lowercase)
+function normalizeString(str) {
+    return str.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
+// Reactive block to filter products based on searchTerm
+$: filteredProductos = productos.filter(producto => {
+  const normalizedSearch = normalizeString($searchTerm);
+  const normalizedProductName = normalizeString(producto.name);
+
+  // Filter by normalized product name (case-insensitive and accent-insensitive)
+  return normalizedProductName.includes(normalizedSearch);
+});
 </script>
 
 <svelte:head>
@@ -49,12 +65,16 @@ function handleImageLoad(productoId) {
 
 {#if showSkeleton || loading}
   <SkeletonCards />
+{:else if error}
+  <div class="alert alert-danger" role="alert">
+    Error al cargar productos: {error}
+  </div>
 {:else}
   <div class="row g-4">
-    {#each productos as producto (producto.id)}
+    {#each filteredProductos as producto (producto.id)} 
       <div class="col-12 col-sm-6 col-md-4 col-lg-3">
         <div class="card h-100 border-0 custom-item-card">
-          <img 
+          <img
             src={producto.image}
             alt={producto.name}
             class="card-img-top fade-in {loadedImages.has(producto.id) ? 'loaded' : ''}"
@@ -65,8 +85,8 @@ function handleImageLoad(productoId) {
             <h6 class="card-title">{producto.name}</h6>
             <p class="card-text">Categoría: <strong>{producto.category}</strong></p>
             <p class="card-text">Precio: <strong class="text-success fs-5">${producto.price}</strong></p>
-            <button 
-                class="btn btn-order mt-auto w-100" 
+            <button
+                class="btn btn-order mt-auto w-100"
                 class:loading={loadingButtons.has(producto.id)}
                 disabled={loadingButtons.has(producto.id)}
                 onclick={() => manejarAgregarAlCarrito(producto.id)}

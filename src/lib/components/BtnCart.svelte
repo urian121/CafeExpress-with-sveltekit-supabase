@@ -1,6 +1,6 @@
 <script>
-	import { mostrarOcultarOffcanvas } from '$lib/stores/toggleOffcanvas';
 	import { onMount } from 'svelte';
+	import { mostrarOcultarOffcanvas } from '$lib/stores/toggleOffcanvas';
 	import { obtenerTotalProductos } from '$lib/services/cartService';
 	import { cartCount } from '$lib/stores/cartCountStore';
 
@@ -18,19 +18,17 @@
 </script>
 
 <!-- Botón del carrito -->
-<div class="position-relative" id="cart-button">
-	<button
-		type="button"
-		class="btn btn_shopping cart-badge position-fixed top-0 end-0 me-4 mt-3 swing-on-hover border bg-white"
-		aria-label="Carrito de compras"
-		onclick={abrirCarrito}
+<button
+	type="button"
+	class="btn position-relative border rounded"
+	aria-label="Carrito de compras"
+	onclick={abrirCarrito}
+	style="width: 40px; height: 40px;"
+>
+	<i class="bi bi-cart"></i>
+	<span
+	class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-success"
 	>
-		<i class="bi bi-bag-heart"></i>
-		<span
-			id="contador-carrito"
-			class="position-absolute top-1 start-100 translate-middle badge rounded-pill bg-cart"
-		>
-			{$cartCount || 0}
-		</span>
-	</button>
-</div>
+	{$cartCount || 0}
+	</span>
+</button>

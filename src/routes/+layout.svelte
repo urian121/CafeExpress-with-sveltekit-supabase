@@ -7,10 +7,10 @@
 	import { useScrollToTop } from '$lib/hooks/useScrollToTop';
 	import { cartStore, cartSubtotal, eliminarProductoDelCarrito, cargarCarrito } from '$lib/stores/cartStore';
 
+	import Nav from '../lib/components/Nav.svelte'
 	import Header from './Header.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import ApiWhatApp from '$lib/components/ApiWhatApp.svelte';
-	import BtnCart from '$lib/components/BtnCart.svelte';
 	import { cerrarOffcanvas } from '$lib/stores/toggleOffcanvas';
 
 	let { children } = $props();
@@ -24,8 +24,8 @@
 	});
 </script>
 
+<Nav/>
 
-<BtnCart />
 
 <div
 	class="offcanvas offcanvas-end"

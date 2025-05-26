@@ -49,9 +49,7 @@ body {
 	animation: swing 0.6s ease forwards;
 	opacity: 0.8 !important;
 }
-.bi-bag-heart {
-	font-size: 22px !important;
-}
+
 .bg-cart {
 	background-color: #188c58 !important;
 }
@@ -71,7 +69,7 @@ body {
   right: 12px;
   width: 45px;
   height: 45px;
-  background-color: #188c58;
+  background-color: #81d3af;
   border-radius: 50%;
   z-index: 1050;
   color: white;
@@ -93,6 +91,43 @@ body {
   transform: translateY(0) scale(1.1);
 }
 /** Fin Botón de volver arriba */
+
+.bi-cart{
+	font-size: 17px;
+}
+
+/** custom button toggler */
+.custom-toggler {
+  border: none;
+  background: transparent;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-toggler:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.custom-toggler:hover {
+  background-color:#b4e3ce;
+}
+
+.custom-toggler i {
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.custom-toggler:hover i {
+  color: #12cf7a;
+}
+/** fin del custom toggler */
 
 footer bi {
 	color: #333 !important;
