@@ -5,6 +5,7 @@
 
 	import { onMount } from 'svelte';
 	import { useScrollToTop } from '$lib/hooks/useScrollToTop';
+	import { showFooter } from '$lib/stores/visibilityStore'; 
 	import { cartStore, cartSubtotal, eliminarProductoDelCarrito, cargarCarrito } from '$lib/stores/cartStore';
 
 	import Nav from '../lib/components/Nav.svelte'
@@ -111,4 +112,6 @@
 </button>
 {/if}
 
+{#if $showFooter}
 <Footer />
+{/if}

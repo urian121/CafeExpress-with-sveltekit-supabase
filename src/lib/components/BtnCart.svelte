@@ -20,10 +20,9 @@
 <!-- Botón del carrito -->
 <button
 	type="button"
-	class="btn position-relative border rounded"
+	class="btn position-relative border rounded btn-icon-cart"
 	aria-label="Carrito de compras"
 	onclick={abrirCarrito}
-	style="width: 40px; height: 40px;"
 >
 	<i class="bi bi-cart"></i>
 	<span

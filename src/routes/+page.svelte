@@ -3,6 +3,7 @@
   import { obtenerProductos, crearManejadorCarrito } from '$lib/services/cartService.js';
   import SkeletonCards from '$lib/components/SkeletonCards.svelte';
   import { searchTerm } from '$lib/stores/searchStore';
+  import { showFooter } from '$lib/stores/visibilityStore'; 
   import "../css/skeleton.css";
   
   let productos = [];
@@ -83,7 +84,7 @@
         searchTimeout = setTimeout(() => {
           filteredProductos = filterProductos(trimmedSearchTerm);
           isSearching = false;
-        }, 300); // 300ms de delay para simular búsqueda
+        }, 400); // 300ms de delay para simular búsqueda
       }
     }
   }
@@ -117,6 +118,7 @@
 
   <!-- Lista de productos o mensajes alternativos -->
   {#if filteredProductos.length > 0}
+  { showFooter.set(true) }
     <div class="row g-4">
       {#each filteredProductos as producto (producto.id)}
         <div class="col-12 col-sm-6 col-md-4 col-lg-3">
@@ -151,6 +153,7 @@
       {/each}
     </div>
   {:else if !isSearching && $searchTerm.trim() !== ''}
+  { showFooter.set(false) }
     <div class="text-center py-5">
       <div class="mb-4">
         <i class="bi bi-search fs-1 text-muted"></i>
