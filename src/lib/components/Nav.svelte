@@ -31,7 +31,7 @@
       </form>
 
       <!-- Enlaces + botón de carrito -->
-      <div class="d-flex align-items-center gap-3 mt-2 mt-lg-0">
+      <div class="d-flex align-items-center gap-3 mt-3 mt-lg-0">
         <a class="nav-link d-flex align-items-center" href="./">
           <i class="bi bi-person me-1"></i> Login
         </a>
