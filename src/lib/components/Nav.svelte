@@ -3,7 +3,7 @@
   import BtnCart from './BtnCart.svelte';
 </script>
 
-<nav class="navbar navbar-expand-lg bg-light fixed-top px-3 mb-5">
+<nav class="navbar navbar-expand-lg bg-custom-navbar fixed-top px-3 mb-5">
   <div class="container-fluid">
     <a class="navbar-brand" href="./">
       <img src="logo.png" alt="Logo" class="img-fluid" style="width: 40px;">
