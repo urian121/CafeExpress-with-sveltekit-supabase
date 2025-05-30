@@ -134,12 +134,10 @@ body {
 .btn-icon-cart{
 	width: 44px;
 	height: 40px;
-	background-color: #b4e3ce;
-	border: 1px solid #b4e3ce !important;
 }
 .btn-icon-cart:hover {
-	background-color: #12cf7a !important;
-	border: 1px solid #12cf7a !important;
+	background-color: #d8c602 !important;
+	border: 1px solid #d8c602 !important;
 	color: white !important;
 }
 
