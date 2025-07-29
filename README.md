@@ -14,8 +14,6 @@
 - 🛒 Sistema de carrito de compras con animaciones suaves
 - 💳 Proceso de pedido intuitivo y seguro
 - 📱 Diseño responsive para móviles y escritorio
-- 🔒 Sistema de autenticación y seguridad
-- 📊 Panel de administración para gestión de productos
 
 ## 🛠️ Tecnologías Utilizadas
 
